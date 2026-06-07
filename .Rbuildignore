@@ -1,0 +1,8 @@
+^readimf\.Rproj$
+^\.Rproj\.user$
+^\.github$
+^cran-comments\.md$
+^LICENSE\.md$
+^\.DS_Store$
+^data-raw$
+^CITATION\.cff$

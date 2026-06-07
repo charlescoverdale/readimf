@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use readimf, please cite it as below."
+type: software
+title: "readimf: Access International Monetary Fund Data via the 'SDMX' 3.0 API"
+version: 0.1.0
+abstract: "Tidy access to International Monetary Fund data through the IMF SDMX 3.0 API, including a migration layer from the retired International Financial Statistics series."
+authors:
+  - family-names: Coverdale
+    given-names: Charles
+    email: charlesfcoverdale@gmail.com
+repository-code: "https://github.com/charlescoverdale/readimf"
+url: "https://github.com/charlescoverdale/readimf"
+license: MIT
+year: 2026
