@@ -10,3 +10,8 @@
   catalogue and metadata.
 * `imf_ifs()` routes retired International Financial Statistics codes to their
   new thematic data flows, and `imf_ifs_map()` shows the crosswalk.
+* Named database wrappers with sensible defaults: `imf_cpi()`, `imf_dots()`
+  (bilateral goods trade), `imf_cofer()` (reserve currency composition),
+  `imf_commodity()` (primary commodity prices) and `imf_gfs()` (government
+  finance). Balance of payments and financial soundness indicators are defined
+  in the API but not yet populated, and will follow.

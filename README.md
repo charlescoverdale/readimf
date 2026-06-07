@@ -56,6 +56,18 @@ imf_dimensions("CPI")                         # see how to build a key
 imf_data("CPI", key = "GBR.CPI._T.IX.M", start = 2020)   # fetch anything by key
 ```
 
+## Named database wrappers
+
+Common databases have named wrappers that set sensible defaults:
+
+```r
+imf_cpi("GBR", measure = "inflation")           # consumer price inflation
+imf_dots("USA", "GBR", flow = "exports")        # bilateral goods trade
+imf_cofer(currency = "USD", measure = "share")  # USD share of world reserves
+imf_commodity("POILWTI", measure = "usd")       # WTI crude oil price
+imf_gfs("GBR", indicator = "revenue")           # general government revenue
+```
+
 ## API keys
 
 The World Economic Outlook is open and needs no key. Restricted databases

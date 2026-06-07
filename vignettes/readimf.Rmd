@@ -74,6 +74,18 @@ in the dimension order reported by `imf_dimensions()`:
 imf_data("CPI", key = "GBR.CPI._T.IX.M", start = 2020)
 ```
 
+## Named database wrappers
+
+Common databases have named wrappers that set sensible defaults:
+
+```{r}
+imf_cpi("GBR", measure = "inflation")
+imf_dots("USA", "GBR", flow = "exports")
+imf_cofer(currency = "USD", measure = "share")
+imf_commodity("POILWTI", measure = "usd")
+imf_gfs("GBR", indicator = "revenue")
+```
+
 ## API keys
 
 The World Economic Outlook is open. Restricted databases accept an optional key
