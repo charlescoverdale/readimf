@@ -1,0 +1,488 @@
+# readimf: full API reference
+
+> Download macroeconomic and financial statistics from the International Monetary Fund data portal (), served through an 'SDMX' 3.
+
+- Version: 0.1.0
+- Install: `install.packages("readimf")`
+- CRAN: https://CRAN.R-project.org/package=readimf
+- GitHub: https://github.com/charlescoverdale/readimf
+
+This file is a self-contained reference for LLM agents: every exported
+function with its signature, arguments, return value, and example.
+
+---
+
+## `imf_codelist()`
+
+**Fetch an IMF codelist**
+
+Download a codelist (the valid codes and labels for a dimension), for example the country list or an indicator list, as a tidy data frame.
+
+**Usage**
+
+```r
+imf_codelist(id, agency = "IMF", version = "+")
+```
+
+**Arguments**
+
+- `id`: Codelist id, for example `"CL_COUNTRY"` or `"CL_WEO_INDICATOR"`.
+- `agency`: Owning agency. Most shared codelists are `"IMF"`; some belong to a department, for example `"IMF.RES"` for WEO codelists.
+- `version`: Codelist version; `"+"` (the default) requests the latest.
+
+**Returns**
+
+A data frame with columns `code` and `label`.
+
+**Example**
+
+```r
+imf_codelist("CL_WEO_INDICATOR", agency = "IMF.RES")
+```
+
+---
+
+## `imf_cofer()`
+
+**Currency composition of official foreign exchange reserves (COFER)**
+
+The share, or nominal value, of a reserve currency in allocated world foreign exchange reserves, from the IMF `COFER` data flow. COFER is published only for world and country-group aggregates, never individual economies.
+
+**Usage**
+
+```r
+imf_cofer(
+  currency = "USD",
+  measure = c("share", "value"),
+  group = "G001",
+  freq = "Q",
+  start = NULL,
+  end = NULL
+)
+```
+
+**Arguments**
+
+- `currency`: Reserve currency code: `"USD"`, `"EUR"`, `"JPY"`, `"GBP"`, `"CNY"` (or `"T"` for the total of allocated reserves).
+- `measure`: `"share"` (percent of allocated reserves) or `"value"` (nominal US dollars).
+- `group`: Aggregate code; `"G001"` (the World) by default.
+- `freq`: Frequency code (`"Q"` or `"A"`).
+- `start, end`: Optional first and last year to keep.
+
+**Returns**
+
+An object of class `imf_tbl` (a data frame).
+
+**Example**
+
+```r
+# US dollar share of world allocated reserves
+imf_cofer(currency = "USD", measure = "share")
+```
+
+---
+
+## `imf_commodity()`
+
+**Primary commodity prices**
+
+Commodity price levels or indices, from the IMF `PCPS` data flow (Primary Commodity Price System). Prices are global, so no country is required.
+
+**Usage**
+
+```r
+imf_commodity(
+  indicator = "PALLFNF",
+  measure = c("index", "usd", "pch_year", "pch"),
+  freq = "M",
+  start = NULL,
+  end = NULL
+)
+```
+
+**Arguments**
+
+- `indicator`: A PCPS commodity code, for example `"PALLFNF"` (all non-fuel commodities index), `"POILWTI"` (WTI crude), `"POILBRE"` (Brent crude) or `"POILAPSP"` (average crude).
+- `measure`: `"index"` (2016 = 100), `"usd"` (US dollars, for price series), `"pch_year"` (year-on-year percent change) or `"pch"` (period percent change).
+- `freq`: Frequency code (`"M"`, `"Q"` or `"A"`).
+- `start, end`: Optional first and last year to keep.
+
+**Returns**
+
+An object of class `imf_tbl` (a data frame).
+
+**Example**
+
+```r
+imf_commodity("POILWTI", measure = "usd", start = 2015)
+imf_commodity("PALLFNF", measure = "index")
+```
+
+---
+
+## `imf_countries()`
+
+**IMF country codelist**
+
+Convenience wrapper returning the master country and area codelist (ISO 3-letter codes and names).
+
+**Usage**
+
+```r
+imf_countries()
+```
+
+**Returns**
+
+A data frame with columns `code` and `label`.
+
+**Example**
+
+```r
+imf_countries()
+```
+
+---
+
+## `imf_cpi()`
+
+**Consumer prices**
+
+Consumer price index or year-on-year inflation, from the IMF `CPI` data flow.
+
+**Usage**
+
+```r
+imf_cpi(
+  country,
+  measure = c("index", "inflation"),
+  freq = "M",
+  start = NULL,
+  end = NULL
+)
+```
+
+**Arguments**
+
+- `country`: Character vector of ISO 3-letter country codes. Required.
+- `measure`: `"index"` (the all-items index) or `"inflation"` (year-on-year percent change).
+- `freq`: Frequency code (`"M"`, `"Q"` or `"A"`).
+- `start, end`: Optional first and last year to keep.
+
+**Returns**
+
+An object of class `imf_tbl` (a data frame).
+
+**Example**
+
+```r
+imf_cpi("GBR", measure = "inflation", start = 2015)
+```
+
+---
+
+## `imf_data()`
+
+**Fetch data from any IMF data flow**
+
+The general-purpose accessor behind the database-specific wrappers. Supply a data flow id and a key. Use `imf_dimensions()` to discover the dimension order and `imf_codelist()` to discover valid codes.
+
+**Usage**
+
+```r
+imf_data(
+  dataflow,
+  key = NULL,
+  agency = NULL,
+  version = "+",
+  start = NULL,
+  end = NULL
+)
+```
+
+**Arguments**
+
+- `dataflow`: Data flow id, for example `"WEO"` or `"CPI"`.
+- `key`: Either a ready-made key string (for example `"GBR.NGDP_RPCH.A"`), or a list of values per dimension in order (for example `list(c("GBR", "USA"), "NGDP_RPCH", "A")`), or `NULL` for all series. An empty element is a wildcard for that dimension.
+- `agency`: Owning agency. If `NULL` it is looked up from the catalogue.
+- `version`: Data flow version; `"+"` (the default) requests the latest.
+- `start, end`: Optional first and last year to keep.
+
+**Returns**
+
+An object of class `imf_tbl` (a data frame).
+
+**Example**
+
+```r
+imf_data("WEO", "GBR.NGDP_RPCH.A", start = 2015, end = 2024)
+```
+
+---
+
+## `imf_dataflows()`
+
+**List the IMF data flow catalogue**
+
+Return every dataset (data flow) published on the IMF 'SDMX' 3.0 portal: its id, descriptive name, owning agency and version. The catalogue is fetched once per session and memoised; pass `refresh = TRUE` to refetch. If the API cannot be reached, a snapshot bundled with the package is returned.
+
+**Usage**
+
+```r
+imf_dataflows(refresh = FALSE)
+```
+
+**Arguments**
+
+- `refresh`: Logical. Refetch from the API instead of using the session-memoised catalogue.
+
+**Returns**
+
+A data frame with columns `id`, `name`, `agency` and `version`.
+
+**Example**
+
+```r
+flows <- imf_dataflows()
+head(flows)
+```
+
+---
+
+## `imf_dimensions()`
+
+**Inspect the dimensions of a data flow**
+
+Return the ordered dimensions of a data flow's data structure. This is the order in which values must be supplied when building a key for `imf_data()`.
+
+**Usage**
+
+```r
+imf_dimensions(dataflow, agency = NULL)
+```
+
+**Arguments**
+
+- `dataflow`: Data flow id, for example `"WEO"` or `"CPI"`.
+- `agency`: Owning agency. If `NULL` it is looked up from the catalogue.
+
+**Returns**
+
+A data frame with columns `position` (zero-based) and `dimension`.
+
+**Example**
+
+```r
+imf_dimensions("WEO")
+```
+
+---
+
+## `imf_dots()`
+
+**Bilateral goods trade (Direction of Trade)**
+
+Goods exports or imports between a reporter and a partner economy, from the IMF `IMTS` data flow (the successor to Direction of Trade Statistics).
+
+**Usage**
+
+```r
+imf_dots(
+  reporter,
+  partner,
+  flow = c("exports", "imports"),
+  freq = "M",
+  start = NULL,
+  end = NULL
+)
+```
+
+**Arguments**
+
+- `reporter`: ISO 3-letter code of the reporting economy. Only economies that report to the IMF appear here; many (including the UK) do not.
+- `partner`: ISO 3-letter code of the partner (counterpart) economy.
+- `flow`: `"exports"` (goods, FOB) or `"imports"` (goods, CIF), in US dollars.
+- `freq`: Frequency code (`"M"`, `"Q"` or `"A"`).
+- `start, end`: Optional first and last year to keep.
+
+**Returns**
+
+An object of class `imf_tbl` (a data frame).
+
+**Example**
+
+```r
+# US goods exports to the UK
+imf_dots("USA", "GBR", flow = "exports", start = 2020)
+```
+
+---
+
+## `imf_gfs()`
+
+**Government finance statistics**
+
+General government revenue or expenditure, from the IMF `GFS_SOO` data flow (Government Finance Statistics, Statement of Operations).
+
+**Usage**
+
+```r
+imf_gfs(
+  country,
+  indicator = c("revenue", "expenditure"),
+  measure = c("xdc", "pct_gdp"),
+  sector = "S13",
+  freq = "A",
+  start = NULL,
+  end = NULL
+)
+```
+
+**Arguments**
+
+- `country`: Character vector of ISO 3-letter country codes. Required.
+- `indicator`: `"revenue"` or `"expenditure"`.
+- `measure`: `"xdc"` (domestic currency) or `"pct_gdp"` (percent of GDP).
+- `sector`: Institutional sector; `"S13"` (general government) by default, or `"S1311"` (central government).
+- `freq`: Frequency code (`"A"` or `"Q"`).
+- `start, end`: Optional first and last year to keep.
+
+**Returns**
+
+An object of class `imf_tbl` (a data frame).
+
+**Example**
+
+```r
+imf_gfs("GBR", indicator = "revenue", measure = "pct_gdp")
+```
+
+---
+
+## `imf_ifs()`
+
+**Fetch a legacy IFS series from its new home**
+
+International Financial Statistics (IFS) was retired when the IMF moved to the 'SDMX' 3.0 portal. Its content was split across several thematic data flows (consumer prices, exchange rates, monetary statistics and others) with no official code crosswalk, which broke every workflow built on the old IFS series codes. `imf_ifs()` accepts a legacy IFS indicator code and routes the request to the correct new data flow and key. Use `imf_ifs_map()` to see which legacy series are supported and where each one now lives. Country coverage in the new data flows varies, especially for interest rates; if a country returns nothing, try another.
+
+**Usage**
+
+```r
+imf_ifs(indicator, country = NULL, freq = NULL, start = NULL, end = NULL)
+```
+
+**Arguments**
+
+- `indicator`: A legacy IFS indicator code, for example `"PCPI_IX"` (consumer price index) or `"ENDA_XDC_USD_RATE"` (exchange rate per USD).
+- `country`: Character vector of ISO 3-letter country codes, for example `c("GBR", "USA")`. Required: the underlying data flows do not serve wildcard country queries without an API key.
+- `freq`: Frequency code (`"A"`, `"Q"` or `"M"`). Defaults to the series' usual frequency.
+- `start, end`: Optional first and last year to keep.
+
+**Returns**
+
+An object of class `imf_tbl` (a data frame). The originating IFS code is retained in the `imf_ifs_code` attribute.
+
+**Example**
+
+```r
+# UK consumer price index, the series formerly known as IFS PCPI_IX
+imf_ifs("PCPI_IX", country = "GBR", start = 2015)
+```
+
+---
+
+## `imf_ifs_map()`
+
+**Show the IFS migration crosswalk**
+
+Reveal which new data flow and key each supported legacy IFS indicator maps to. This is the documentation behind `imf_ifs()` and a migration aid in its own right: it shows where a retired IFS series now lives without fetching any data.
+
+**Usage**
+
+```r
+imf_ifs_map(indicator = NULL)
+```
+
+**Arguments**
+
+- `indicator`: Optional vector of legacy IFS codes to filter to. With no argument the whole crosswalk is returned.
+
+**Returns**
+
+A data frame with columns `ifs_code`, `description`, `agency`, `dataflow`, `key_template` and `default_freq`.
+
+**Example**
+
+```r
+imf_ifs_map()
+imf_ifs_map("PCPI_IX")
+```
+
+---
+
+## `imf_search()`
+
+**Search the IMF data flow catalogue**
+
+Case-insensitive search over data flow ids and names.
+
+**Usage**
+
+```r
+imf_search(pattern)
+```
+
+**Arguments**
+
+- `pattern`: Regular expression or plain text to match.
+
+**Returns**
+
+A data frame: the matching rows of `imf_dataflows()`.
+
+**Example**
+
+```r
+imf_search("consumer price")
+imf_search("balance of payments")
+```
+
+---
+
+## `imf_weo()`
+
+**Download World Economic Outlook data**
+
+Fetch series from the IMF World Economic Outlook (WEO), the Fund's flagship forecast database. The WEO is openly available, so no API key is required.
+
+**Usage**
+
+```r
+imf_weo(
+  indicator = NULL,
+  country = NULL,
+  start = NULL,
+  end = NULL,
+  vintage = "latest"
+)
+```
+
+**Arguments**
+
+- `indicator`: Character vector of WEO indicator codes, for example `"NGDP_RPCH"` (real GDP growth), `"NGDPD"` (GDP in US dollars) or `"PCPIPCH"` (inflation). `NULL` (the default) returns every indicator.
+- `country`: Character vector of ISO 3-letter country codes, for example `c("GBR", "USA")`. `NULL` (the default) returns every economy.
+- `start, end`: Optional first and last year to keep, for example `2000` and `2024`.
+- `vintage`: Either `"latest"` (the current WEO release, the default) or a tag of the form `"YYYY-MM"` such as `"2025-10"` to request a specific historical release for forecast evaluation.
+
+**Returns**
+
+An object of class `imf_tbl` (a data frame) with columns `country`, `indicator`, `freq`, `period` and `value`, carrying provenance attributes.
+
+**Example**
+
+```r
+imf_weo("NGDP_RPCH", country = c("GBR", "USA"), start = 2015, end = 2024)
+```
+
+---
+

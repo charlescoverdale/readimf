@@ -7,3 +7,4 @@
 ^data-raw$
 ^CITATION\.cff$
 ^CRAN-SUBMISSION$
+^llms-full\.txt$
