@@ -37,7 +37,9 @@ General government revenue or expenditure, from the IMF \code{GFS_SOO} data flow
 }
 \examples{
 \donttest{
-imf_gfs("GBR", indicator = "revenue", measure = "pct_gdp")
+try({
+  imf_gfs("GBR", indicator = "revenue", measure = "pct_gdp")
+})
 }
 }
 \seealso{

@@ -35,8 +35,10 @@ IMF \code{IMTS} data flow (the successor to Direction of Trade Statistics).
 }
 \examples{
 \donttest{
-# US goods exports to the UK
-imf_dots("USA", "GBR", flow = "exports", start = 2020)
+try({
+  # US goods exports to the UK
+  imf_dots("USA", "GBR", flow = "exports", start = 2020)
+})
 }
 }
 \seealso{

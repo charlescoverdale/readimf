@@ -36,8 +36,10 @@ for world and country-group aggregates, never individual economies.
 }
 \examples{
 \donttest{
-# US dollar share of world allocated reserves
-imf_cofer(currency = "USD", measure = "share")
+try({
+  # US dollar share of world allocated reserves
+  imf_cofer(currency = "USD", measure = "share")
+})
 }
 }
 \seealso{

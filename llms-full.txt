@@ -2,7 +2,7 @@
 
 > Download macroeconomic and financial statistics from the International Monetary Fund data portal (), served through an 'SDMX' 3.
 
-- Version: 0.1.0
+- Version: 0.1.1
 - Install: `install.packages("readimf")`
 - CRAN: https://CRAN.R-project.org/package=readimf
 - GitHub: https://github.com/charlescoverdale/readimf
@@ -37,7 +37,9 @@ A data frame with columns `code` and `label`.
 **Example**
 
 ```r
-imf_codelist("CL_WEO_INDICATOR", agency = "IMF.RES")
+try({
+  imf_codelist("CL_WEO_INDICATOR", agency = "IMF.RES")
+})
 ```
 
 ---
@@ -76,8 +78,10 @@ An object of class `imf_tbl` (a data frame).
 **Example**
 
 ```r
-# US dollar share of world allocated reserves
-imf_cofer(currency = "USD", measure = "share")
+try({
+  # US dollar share of world allocated reserves
+  imf_cofer(currency = "USD", measure = "share")
+})
 ```
 
 ---
@@ -114,8 +118,10 @@ An object of class `imf_tbl` (a data frame).
 **Example**
 
 ```r
-imf_commodity("POILWTI", measure = "usd", start = 2015)
-imf_commodity("PALLFNF", measure = "index")
+try({
+  imf_commodity("POILWTI", measure = "usd", start = 2015)
+  imf_commodity("PALLFNF", measure = "index")
+})
 ```
 
 ---
@@ -139,7 +145,9 @@ A data frame with columns `code` and `label`.
 **Example**
 
 ```r
-imf_countries()
+try({
+  imf_countries()
+})
 ```
 
 ---
@@ -176,7 +184,9 @@ An object of class `imf_tbl` (a data frame).
 **Example**
 
 ```r
-imf_cpi("GBR", measure = "inflation", start = 2015)
+try({
+  imf_cpi("GBR", measure = "inflation", start = 2015)
+})
 ```
 
 ---
@@ -215,7 +225,9 @@ An object of class `imf_tbl` (a data frame).
 **Example**
 
 ```r
-imf_data("WEO", "GBR.NGDP_RPCH.A", start = 2015, end = 2024)
+try({
+  imf_data("WEO", "GBR.NGDP_RPCH.A", start = 2015, end = 2024)
+})
 ```
 
 ---
@@ -243,8 +255,10 @@ A data frame with columns `id`, `name`, `agency` and `version`.
 **Example**
 
 ```r
-flows <- imf_dataflows()
-head(flows)
+try({
+  flows <- imf_dataflows()
+  head(flows)
+})
 ```
 
 ---
@@ -273,7 +287,9 @@ A data frame with columns `position` (zero-based) and `dimension`.
 **Example**
 
 ```r
-imf_dimensions("WEO")
+try({
+  imf_dimensions("WEO")
+})
 ```
 
 ---
@@ -312,8 +328,10 @@ An object of class `imf_tbl` (a data frame).
 **Example**
 
 ```r
-# US goods exports to the UK
-imf_dots("USA", "GBR", flow = "exports", start = 2020)
+try({
+  # US goods exports to the UK
+  imf_dots("USA", "GBR", flow = "exports", start = 2020)
+})
 ```
 
 ---
@@ -354,7 +372,9 @@ An object of class `imf_tbl` (a data frame).
 **Example**
 
 ```r
-imf_gfs("GBR", indicator = "revenue", measure = "pct_gdp")
+try({
+  imf_gfs("GBR", indicator = "revenue", measure = "pct_gdp")
+})
 ```
 
 ---
@@ -385,8 +405,10 @@ An object of class `imf_tbl` (a data frame). The originating IFS code is retaine
 **Example**
 
 ```r
-# UK consumer price index, the series formerly known as IFS PCPI_IX
-imf_ifs("PCPI_IX", country = "GBR", start = 2015)
+try({
+  # UK consumer price index, the series formerly known as IFS PCPI_IX
+  imf_ifs("PCPI_IX", country = "GBR", start = 2015)
+})
 ```
 
 ---
@@ -443,8 +465,10 @@ A data frame: the matching rows of `imf_dataflows()`.
 **Example**
 
 ```r
-imf_search("consumer price")
-imf_search("balance of payments")
+try({
+  imf_search("consumer price")
+  imf_search("balance of payments")
+})
 ```
 
 ---
@@ -481,7 +505,9 @@ An object of class `imf_tbl` (a data frame) with columns `country`, `indicator`,
 **Example**
 
 ```r
-imf_weo("NGDP_RPCH", country = c("GBR", "USA"), start = 2015, end = 2024)
+try({
+  imf_weo("NGDP_RPCH", country = c("GBR", "USA"), start = 2015, end = 2024)
+})
 ```
 
 ---

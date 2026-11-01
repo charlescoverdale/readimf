@@ -37,6 +37,8 @@ order and \code{\link[=imf_codelist]{imf_codelist()}} to discover valid codes.
 }
 \examples{
 \donttest{
-imf_data("WEO", "GBR.NGDP_RPCH.A", start = 2015, end = 2024)
+try({
+  imf_data("WEO", "GBR.NGDP_RPCH.A", start = 2015, end = 2024)
+})
 }
 }

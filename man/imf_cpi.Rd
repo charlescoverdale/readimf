@@ -30,7 +30,9 @@ Consumer price index or year-on-year inflation, from the IMF \code{CPI} data flo
 }
 \examples{
 \donttest{
-imf_cpi("GBR", measure = "inflation", start = 2015)
+try({
+  imf_cpi("GBR", measure = "inflation", start = 2015)
+})
 }
 }
 \seealso{

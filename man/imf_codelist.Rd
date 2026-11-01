@@ -23,6 +23,8 @@ example the country list or an indicator list, as a tidy data frame.
 }
 \examples{
 \donttest{
-imf_codelist("CL_WEO_INDICATOR", agency = "IMF.RES")
+try({
+  imf_codelist("CL_WEO_INDICATOR", agency = "IMF.RES")
+})
 }
 }

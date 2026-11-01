@@ -37,8 +37,10 @@ interest rates; if a country returns nothing, try another.
 }
 \examples{
 \donttest{
-# UK consumer price index, the series formerly known as IFS PCPI_IX
-imf_ifs("PCPI_IX", country = "GBR", start = 2015)
+try({
+  # UK consumer price index, the series formerly known as IFS PCPI_IX
+  imf_ifs("PCPI_IX", country = "GBR", start = 2015)
+})
 }
 }
 \seealso{

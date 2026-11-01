@@ -20,6 +20,8 @@ order in which values must be supplied when building a key for \code{\link[=imf_
 }
 \examples{
 \donttest{
-imf_dimensions("WEO")
+try({
+  imf_dimensions("WEO")
+})
 }
 }

@@ -5,6 +5,6 @@ bibentry(
   title   = "{readimf}: Access International Monetary Fund Data via the 'SDMX' 3.0 API",
   author  = person("Charles", "Coverdale"),
   year    = "2026",
-  note    = "R package version 0.1.0",
+  note    = paste("R package version", meta$Version),
   url     = "https://github.com/charlescoverdale/readimf"
 )

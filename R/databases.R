@@ -33,7 +33,9 @@
 #' @return An object of class `imf_tbl` (a data frame).
 #' @examples
 #' \donttest{
-#' imf_cpi("GBR", measure = "inflation", start = 2015)
+#' try({
+#'   imf_cpi("GBR", measure = "inflation", start = 2015)
+#' })
 #' }
 #' @seealso [imf_data()], [imf_ifs()]
 #' @export
@@ -63,8 +65,10 @@ imf_cpi <- function(country, measure = c("index", "inflation"), freq = "M",
 #' @return An object of class `imf_tbl` (a data frame).
 #' @examples
 #' \donttest{
-#' # US goods exports to the UK
-#' imf_dots("USA", "GBR", flow = "exports", start = 2020)
+#' try({
+#'   # US goods exports to the UK
+#'   imf_dots("USA", "GBR", flow = "exports", start = 2020)
+#' })
 #' }
 #' @seealso [imf_data()]
 #' @export
@@ -98,8 +102,10 @@ imf_dots <- function(reporter, partner, flow = c("exports", "imports"),
 #' @return An object of class `imf_tbl` (a data frame).
 #' @examples
 #' \donttest{
-#' # US dollar share of world allocated reserves
-#' imf_cofer(currency = "USD", measure = "share")
+#' try({
+#'   # US dollar share of world allocated reserves
+#'   imf_cofer(currency = "USD", measure = "share")
+#' })
 #' }
 #' @seealso [imf_data()]
 #' @export
@@ -130,8 +136,10 @@ imf_cofer <- function(currency = "USD", measure = c("share", "value"),
 #' @return An object of class `imf_tbl` (a data frame).
 #' @examples
 #' \donttest{
-#' imf_commodity("POILWTI", measure = "usd", start = 2015)
-#' imf_commodity("PALLFNF", measure = "index")
+#' try({
+#'   imf_commodity("POILWTI", measure = "usd", start = 2015)
+#'   imf_commodity("PALLFNF", measure = "index")
+#' })
 #' }
 #' @seealso [imf_data()]
 #' @export
@@ -163,7 +171,9 @@ imf_commodity <- function(indicator = "PALLFNF",
 #' @return An object of class `imf_tbl` (a data frame).
 #' @examples
 #' \donttest{
-#' imf_gfs("GBR", indicator = "revenue", measure = "pct_gdp")
+#' try({
+#'   imf_gfs("GBR", indicator = "revenue", measure = "pct_gdp")
+#' })
 #' }
 #' @seealso [imf_data()]
 #' @export

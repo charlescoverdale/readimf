@@ -17,7 +17,8 @@
 
 # Build an 'SDMX' key from positional dimension values. Each argument is a
 # character vector (or NULL for a wildcard). Values within one dimension are
-# joined with "+"; successive dimensions are joined with ".".
+# joined with "+"; successive dimensions are joined with ".". Empty
+# positions are turned into the SDMX 3.0 wildcard by .imf_wildcard().
 .imf_key <- function(...) {
   dims <- list(...)
   parts <- vapply(dims, function(p) {
@@ -30,7 +31,7 @@
 # parsed from the 'SDMX-CSV' representation.
 .imf_fetch <- function(agency, flow, key = "", version = "+", api_key = NULL) {
   url <- paste0(.imf_base_url(), "data/dataflow/",
-                agency, "/", flow, "/", version, "/", key)
+                agency, "/", flow, "/", version, "/", .imf_wildcard(key))
 
   req <- httr2::request(url)
   req <- httr2::req_headers(req, Accept = "application/vnd.sdmx.data+csv;version=2.0.0")
@@ -89,4 +90,18 @@
   if (length(ord)) out <- out[do.call(order, unname(out[ord])), , drop = FALSE]
   rownames(out) <- NULL
   out
+}
+
+# The IMF's SDMX 3.0 API reads an empty key position as "no value", not as
+# "any value": "..A" returns no series at all, where "*.*.A" returns every
+# country and indicator. Replace empty positions with the "*" wildcard. An
+# entirely empty key (the whole data flow) is left alone.
+.imf_wildcard <- function(key) {
+  if (!nzchar(key)) return(key)
+  parts <- strsplit(key, ".", fixed = TRUE)[[1]]
+  # strsplit() drops a trailing empty field, so restore the full count.
+  n <- lengths(regmatches(key, gregexpr(".", key, fixed = TRUE))) + 1L
+  parts <- c(parts, rep("", n - length(parts)))
+  parts[!nzchar(parts)] <- "*"
+  paste(parts, collapse = ".")
 }

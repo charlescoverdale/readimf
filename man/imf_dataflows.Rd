@@ -21,7 +21,9 @@ the API cannot be reached, a snapshot bundled with the package is returned.
 }
 \examples{
 \donttest{
-flows <- imf_dataflows()
-head(flows)
+try({
+  flows <- imf_dataflows()
+  head(flows)
+})
 }
 }

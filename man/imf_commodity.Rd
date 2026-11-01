@@ -34,8 +34,10 @@ Commodity Price System). Prices are global, so no country is required.
 }
 \examples{
 \donttest{
-imf_commodity("POILWTI", measure = "usd", start = 2015)
-imf_commodity("PALLFNF", measure = "index")
+try({
+  imf_commodity("POILWTI", measure = "usd", start = 2015)
+  imf_commodity("PALLFNF", measure = "index")
+})
 }
 }
 \seealso{

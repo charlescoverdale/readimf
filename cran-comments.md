@@ -1,27 +1,20 @@
-## Submission
+# CRAN submission comments: readimf 0.1.1
 
-This is a new submission (readimf 0.1.0).
+## Reason for this submission
+
+Bug fix. Calls that leave a key dimension unspecified, documented as
+returning every value, returned an empty result because the IMF's SDMX
+3.0 API needs an explicit wildcard. Details in NEWS.md.
 
 ## R CMD check results
 
-Local `R CMD check --as-cran` (macOS aarch64, R 4.5.2): 0 errors | 0 warnings | 0 notes.
+0 errors | 0 warnings | 0 notes (CRAN settings, R 4.5.2, macOS).
 
-On CRAN's incoming checks I expect the standard "New submission" NOTE.
+Network examples are now wrapped in `try()` inside `\donttest{}`, so an
+unreachable API prints a message rather than failing the check.
 
-## Notes for the reviewer
+Tests that reach the IMF API are skipped on CRAN.
 
-* The package wraps the public IMF data portal at <https://data.imf.org>,
-  served through the IMF 'SDMX' 3.0 REST API. The World Economic Outlook needs
-  no authentication; an optional API key (read from the `IMF_API_KEY`
-  environment variable) unlocks wildcard queries on restricted databases. No
-  key is embedded in the package.
-* <https://data.imf.org> is valid: it resolves in a browser and via R's
-  `curlGetHeaders()`. The IMF web application firewall can intermittently
-  return HTTP 403 to automated link checkers using certain user agents, so the
-  URL may be reported as "possibly invalid"; it is correct.
-* All examples that contact the API are wrapped in `\donttest{}`. All tests
-  that contact the network use `skip_on_cran()` and `skip_if_offline()`.
+## Downstream dependencies
 
-## Test environments
-
-* local: macOS (aarch64), R 4.5.2
+None on CRAN.

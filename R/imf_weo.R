@@ -20,7 +20,9 @@
 #'
 #' @examples
 #' \donttest{
-#' imf_weo("NGDP_RPCH", country = c("GBR", "USA"), start = 2015, end = 2024)
+#' try({
+#'   imf_weo("NGDP_RPCH", country = c("GBR", "USA"), start = 2015, end = 2024)
+#' })
 #' }
 #' @export
 imf_weo <- function(indicator = NULL, country = NULL,

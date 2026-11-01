@@ -15,6 +15,8 @@ Convenience wrapper returning the master country and area codelist
 }
 \examples{
 \donttest{
-imf_countries()
+try({
+  imf_countries()
+})
 }
 }

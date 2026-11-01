@@ -1,3 +1,20 @@
+# readimf 0.1.1
+
+## Leaving a dimension out now returns every value, as documented
+
+`imf_weo()` documents `country = NULL` and `indicator = NULL` as "every
+economy" and "every indicator", and `imf_data()` documents an empty key
+element as a wildcard. All of them returned a single blank row instead:
+the IMF's SDMX 3.0 API reads an empty key position as "no value", not
+"any value". For example `imf_weo(indicator = "NGDP_RPCH")` returned one
+empty row; it now returns all 208 economies. Empty key positions are now
+sent as the SDMX 3.0 wildcard `*`.
+
+## Examples
+
+Network examples are wrapped in `try()`, so an unreachable IMF API prints
+a message instead of failing `R CMD check --run-donttest`.
+
 # readimf 0.1.0
 
 * Initial CRAN release.

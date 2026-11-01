@@ -43,8 +43,10 @@
 #' @return A data frame with columns `id`, `name`, `agency` and `version`.
 #' @examples
 #' \donttest{
-#' flows <- imf_dataflows()
-#' head(flows)
+#' try({
+#'   flows <- imf_dataflows()
+#'   head(flows)
+#' })
 #' }
 #' @export
 imf_dataflows <- function(refresh = FALSE) {
@@ -71,8 +73,10 @@ imf_dataflows <- function(refresh = FALSE) {
 #' @return A data frame: the matching rows of [imf_dataflows()].
 #' @examples
 #' \donttest{
-#' imf_search("consumer price")
-#' imf_search("balance of payments")
+#' try({
+#'   imf_search("consumer price")
+#'   imf_search("balance of payments")
+#' })
 #' }
 #' @export
 imf_search <- function(pattern) {
@@ -106,7 +110,9 @@ imf_search <- function(pattern) {
 #' @return A data frame with columns `code` and `label`.
 #' @examples
 #' \donttest{
-#' imf_codelist("CL_WEO_INDICATOR", agency = "IMF.RES")
+#' try({
+#'   imf_codelist("CL_WEO_INDICATOR", agency = "IMF.RES")
+#' })
 #' }
 #' @export
 imf_codelist <- function(id, agency = "IMF", version = "+") {
@@ -122,7 +128,9 @@ imf_codelist <- function(id, agency = "IMF", version = "+") {
 #' @return A data frame with columns `code` and `label`.
 #' @examples
 #' \donttest{
-#' imf_countries()
+#' try({
+#'   imf_countries()
+#' })
 #' }
 #' @export
 imf_countries <- function() imf_codelist("CL_COUNTRY", agency = "IMF")
@@ -151,7 +159,9 @@ imf_countries <- function() imf_codelist("CL_COUNTRY", agency = "IMF")
 #' @return A data frame with columns `position` (zero-based) and `dimension`.
 #' @examples
 #' \donttest{
-#' imf_dimensions("WEO")
+#' try({
+#'   imf_dimensions("WEO")
+#' })
 #' }
 #' @export
 imf_dimensions <- function(dataflow, agency = NULL) {
@@ -197,7 +207,9 @@ imf_dimensions <- function(dataflow, agency = NULL) {
 #' @return An object of class `imf_tbl` (a data frame).
 #' @examples
 #' \donttest{
-#' imf_data("WEO", "GBR.NGDP_RPCH.A", start = 2015, end = 2024)
+#' try({
+#'   imf_data("WEO", "GBR.NGDP_RPCH.A", start = 2015, end = 2024)
+#' })
 #' }
 #' @export
 imf_data <- function(dataflow, key = NULL, agency = NULL, version = "+",

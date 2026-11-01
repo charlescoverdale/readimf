@@ -31,3 +31,11 @@ test_that("tidy reduces SDMX-CSV to dimensions, period and value", {
   # rows sorted by period ascending
   expect_equal(out$period, c(2020L, 2021L))
 })
+
+test_that(".imf_wildcard turns empty key positions into the SDMX 3.0 wildcard", {
+  expect_equal(.imf_wildcard("..A"), "*.*.A")
+  expect_equal(.imf_wildcard(".NGDP_RPCH.A"), "*.NGDP_RPCH.A")
+  expect_equal(.imf_wildcard("GBR.NGDP_RPCH."), "GBR.NGDP_RPCH.*")
+  expect_equal(.imf_wildcard("GBR+USA.NGDP_RPCH.A"), "GBR+USA.NGDP_RPCH.A")
+  expect_equal(.imf_wildcard(""), "")
+})

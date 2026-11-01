@@ -17,7 +17,9 @@ Case-insensitive search over data flow ids and names.
 }
 \examples{
 \donttest{
-imf_search("consumer price")
-imf_search("balance of payments")
+try({
+  imf_search("consumer price")
+  imf_search("balance of payments")
+})
 }
 }

@@ -11,3 +11,12 @@ test_that("imf_weo fetches WEO data from the live API", {
   expect_type(x$value, "double")
   expect_false(anyNA(x$value))
 })
+
+test_that("imf_weo with country = NULL returns every economy", {
+  skip_on_cran()
+  skip_if_offline()
+  w <- imf_weo(indicator = "NGDP_RPCH", start = 2024, end = 2024)
+  # The empty-key form returned a single blank row before 0.1.1.
+  expect_gt(length(unique(w$country)), 150L)
+  expect_false(anyNA(w$value[w$country == "GBR"]))
+})
