@@ -72,14 +72,14 @@ imf_weo("NGDP_RPCH", country = c("GBR", "USA"), start = 2021, end = 2024)
 #> IMF data: IMF.RES/WEO
 #> 8 rows, 2 economies, 2021 to 2024
 #>   country indicator freq period    value
-#> 1     GBR NGDP_RPCH    A   2021 8.543112
-#> 2     GBR NGDP_RPCH    A   2022 5.149704
-#> 3     GBR NGDP_RPCH    A   2023 0.271650
-#> 4     GBR NGDP_RPCH    A   2024 1.088126
-#> 5     USA NGDP_RPCH    A   2021 6.151865
-#> 6     USA NGDP_RPCH    A   2022 2.524222
-#> 7     USA NGDP_RPCH    A   2023 2.934535
-#> 8     USA NGDP_RPCH    A   2024 2.793116
+#> 1     GBR NGDP_RPCH    A   2021 8.517562
+#> 2     GBR NGDP_RPCH    A   2022 5.020942
+#> 3     GBR NGDP_RPCH    A   2023 0.443631
+#> 4     GBR NGDP_RPCH    A   2024 1.113908
+#> 5     USA NGDP_RPCH    A   2021 6.268333
+#> 6     USA NGDP_RPCH    A   2022 2.429602
+#> 7     USA NGDP_RPCH    A   2023 2.918628
+#> 8     USA NGDP_RPCH    A   2024 2.951816
 
 # A historical forecast vintage, for forecast evaluation
 imf_weo("NGDP_RPCH", country = "GBR", vintage = "2025-10")
@@ -91,16 +91,20 @@ When the IMF retired International Financial Statistics, series like the consume
 
 ```r
 # See where each retired IFS series now lives
-imf_ifs_map()
-#>            ifs_code                                           description dataflow
-#> 1           PCPI_IX                       Consumer price index, all items      CPI
-#> 2           PCPIPCH Consumer price inflation, year-on-year percent change      CPI
-#> 3 ENDA_XDC_USD_RATE Exchange rate, domestic currency per USD, period average      ER
-#> 4          FPOLM_PA          Central bank policy rate, percent per annum   MFS_IR
-#> ... (the full table also has agency, key_template and default_freq columns)
-
-# Fetch by the old IFS code; readimf routes it to the new CPI data flow
-imf_ifs("PCPI_IX", country = "GBR", start = 2015)
+# (the table also has description, agency and default_freq columns)
+imf_ifs_map()[, c("ifs_code", "dataflow", "key_template")]
+#>           ifs_code dataflow                          key_template
+#>            PCPI_IX      CPI            {country}.CPI._T.IX.{freq}
+#>            PCPIPCH      CPI {country}.CPI._T.YOY_PCH_PA_PT.{freq}
+#>  ENDA_XDC_USD_RATE       ER        {country}.XDC_USD.PA_RT.{freq}
+#>  ENDE_XDC_USD_RATE       ER       {country}.XDC_USD.EOP_RT.{freq}
+#>           FPOLM_PA   MFS_IR    {country}.MFS166_RT_PT_A_PT.{freq}
+#>            FIMM_PA   MFS_IR      {country}.MMRT_RT_PT_A_PT.{freq}
+#>            FIDR_PA   MFS_IR    {country}.MFS135_RT_PT_A_PT.{freq}
+#>            FILR_PA   MFS_IR    {country}.MFS162_RT_PT_A_PT.{freq}
+#>           RAFA_USD       IL       {country}.RXF11_REVS.USD.{freq}
+#>             AIP_IX       PI               {country}.IND.IX.{freq}
+#>             LUR_PT       LS                 {country}.U.PT.{freq}
 ```
 
 ### Named database wrappers
@@ -111,18 +115,18 @@ Common databases have named wrappers that set sensible defaults, so you never bu
 # US dollar share of allocated world reserves (COFER, quarterly)
 imf_cofer(currency = "USD", measure = "share", start = 2022)
 #> IMF data: IMF.STA/COFER
-#> 16 rows, 1 economy, 2022-Q1 to 2025-Q4
-#>   country indicator fxr_currency type_of_transformation freq  period    value
-#> 1    G001     AFXRA       CI_USD                SHRO_PT    Q 2022-Q1 59.41740
-#> 2    G001     AFXRA       CI_USD                SHRO_PT    Q 2022-Q2 59.99506
-#> 3    G001     AFXRA       CI_USD                SHRO_PT    Q 2022-Q3 60.43338
-#> 4    G001     AFXRA       CI_USD                SHRO_PT    Q 2022-Q4 58.95171
+#> 18 rows, 1 economy, 2022-Q1 to 2026-Q2
+#>    country indicator fxr_currency type_of_transformation freq  period    value
+#> 1     G001     AFXRA       CI_USD                SHRO_PT    Q 2022-Q1 59.41658
+#> 2     G001     AFXRA       CI_USD                SHRO_PT    Q 2022-Q2 59.99429
+#> 3     G001     AFXRA       CI_USD                SHRO_PT    Q 2022-Q3 60.43258
+#> 4     G001     AFXRA       CI_USD                SHRO_PT    Q 2022-Q4 58.95066
 #> ...
 
 # WTI crude oil price, US dollars per barrel (a global series, no country needed)
 imf_commodity("POILWTI", measure = "usd", start = 2024)
 #> IMF data: IMF.RES/PCPS
-#> 29 rows, 1 economy, 2024-M01 to 2026-M05
+#> 33 rows, 1 economy, 2024-M01 to 2026-M09
 #>    country indicator data_transformation freq   period    value
 #> 1     G001   POILWTI                 USD    M 2024-M01 74.00304
 #> 2     G001   POILWTI                 USD    M 2024-M02 77.36381
